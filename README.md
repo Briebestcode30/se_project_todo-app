@@ -1,17 +1,18 @@
-# Simple Todo App
+# Simple ToDo App
 
-Give a brief description of the project here. Feel free to give it a different name.
+A lightweight, modular, and fully interactive ToDo application built with vanilla JavaScript, following modern project architecture and best practices.
 
-## Functionality
+---
 
-Give a more detailed explanation of the project and its functionality.
+## **Project Features**
 
-## Technology
+- Add, delete, and mark todos as completed.
+- Optional due dates for tasks.
+- Form validation with real-time error messages.
+- Modular design using ES6 classes and modules.
+- Preloaded initial tasks.
+- Unique IDs for every todo (using `uuid` library).
 
-Give a description of the technologies and techniques used. Pictures, GIFs, or screenshots that detail the project features are recommended.
+---
 
-## Deployment
-
-This project is deployed on GitHub Pages:
-
-- ADD LINK HERE
+## **Folder Structure**
