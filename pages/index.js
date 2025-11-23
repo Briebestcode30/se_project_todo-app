@@ -6,32 +6,39 @@ import FormValidator from "../components/FormValidator.js";
 import TodoCounter from "../components/TodoCounter.js";
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
-const addTodoButton = document.querySelector(".button_action_add");
+const TEMPLATE_SELECTOR = "#todo-template";
+const TODOS_CONTAINER_SELECTOR = ".todos__list";
+const COUNTER_SELECTOR = ".counter__text";
+const ADD_TODO_FORM_SELECTOR = "#add-todo-form";
+const ADD_TODO_POPUP_SELECTOR = "#add-todo-popup";
+const ADD_TODO_BUTTON_SELECTOR = ".button_action_add";
 
-const todoCounter = new TodoCounter(initialTodos, ".counter__text");
+const addTodoButton = document.querySelector(ADD_TODO_BUTTON_SELECTOR);
 
-const todoSection = new Section(
-  {
-    items: initialTodos,
-    renderer: (data) => {
-      const todo = new Todo(
-        data,
-        "#todo-template",
-        (checked) => todoCounter.updateCompleted(checked),
-        (wasCompleted) => {
-          todoCounter.updateTotal(false);
-          if (wasCompleted) todoCounter.updateCompleted(false);
-        }
-      );
-      todoSection.addItem(todo.getView());
-    },
-  },
-  ".todos__list"
-);
+const todoCounter = new TodoCounter(initialTodos, COUNTER_SELECTOR);
+
+const renderTodo = (data) => {
+  const todo = new Todo(
+    data,
+    TEMPLATE_SELECTOR,
+    (checked) => todoCounter.updateCompleted(checked),
+    (wasCompleted) => {
+      todoCounter.updateTotal(false);
+      if (wasCompleted) todoCounter.updateCompleted(false);
+    }
+  );
+  todoSection.addItem(todo.getView());
+};
+
+const todoSection = new Section({
+  items: initialTodos,
+  renderer: renderTodo,
+  containerSelector: TODOS_CONTAINER_SELECTOR,
+});
 
 todoSection.renderItems();
 
-const addTodoPopup = new PopupWithForm("#add-todo-popup", (values) => {
+const addTodoPopup = new PopupWithForm(ADD_TODO_POPUP_SELECTOR, (values) => {
   const todoData = {
     id: uuidv4(),
     name: values.name,
@@ -40,18 +47,7 @@ const addTodoPopup = new PopupWithForm("#add-todo-popup", (values) => {
   };
 
   todoCounter.updateTotal(true);
-
-  const todo = new Todo(
-    todoData,
-    "#todo-template",
-    (checked) => todoCounter.updateCompleted(checked),
-    (wasCompleted) => {
-      todoCounter.updateTotal(false);
-      if (wasCompleted) todoCounter.updateCompleted(false);
-    }
-  );
-
-  todoSection.addItem(todo.getView());
+  renderTodo(todoData);
   addTodoPopup.close();
 });
 
@@ -59,7 +55,7 @@ addTodoPopup.setEventListeners();
 
 const newTodoValidator = new FormValidator(
   validationConfig,
-  document.querySelector("#add-todo-form")
+  document.querySelector(ADD_TODO_FORM_SELECTOR)
 );
 newTodoValidator.enableValidation();
 
