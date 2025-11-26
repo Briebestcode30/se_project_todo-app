@@ -7,7 +7,7 @@ This project follows strict best practices for clean architecture, form validati
 
 ## 🚀 Live Demo (GitHub Pages)
 
-👉 (https://github.com/Briebestcode30/se_project_todo-app/tree/main)
+👉 git@github.com:Briebestcode30/se_project_todo-app.git
 
 ---
 
